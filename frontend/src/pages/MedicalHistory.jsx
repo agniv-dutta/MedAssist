@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Activity, Pill, ArrowLeft, CheckCircle } from 'lucide-react'
 
 export default function MedicalHistory({ navigate }) {
   const [userProfile, setUserProfile] = useState({

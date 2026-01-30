@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Activity, FileText, Users, Pill, User, LogOut } from 'lucide-react'
 import { getMedicalHistory } from '../utils/api'
 
 export default function Dashboard({ navigate }) {
@@ -63,15 +64,36 @@ export default function Dashboard({ navigate }) {
         }}>
           <div>
             <h1 style={{ fontSize: '2.5rem', fontWeight: '700', color: '#0F172A', marginBottom: '10px' }}>
-              Welcome, {userProfile.name}! 👋
+              Welcome, {userProfile.name}!
             </h1>
             <p style={{ color: '#64748B', marginTop: '8px' }}>Your personal health dashboard</p>
           </div>
           <button
             onClick={handleLogout}
-            className="btn-secondary"
-            style={{ whiteSpace: 'nowrap' }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#EF4444',
+              color: 'white',
+              padding: '10px 16px',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#DC2626'
+              e.currentTarget.style.transform = 'translateY(-2px)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#EF4444'
+              e.currentTarget.style.transform = 'translateY(0)'
+            }}
           >
+            <LogOut size={18} />
             Logout
           </button>
         </div>
@@ -94,18 +116,22 @@ export default function Dashboard({ navigate }) {
               cursor: 'pointer',
               boxShadow: '0 4px 6px rgba(13, 148, 136, 0.2)',
               transition: 'all 0.3s ease',
-              textAlign: 'center'
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-4px)'
-              e.target.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
             }}
           >
-            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>🩺</div>
+            <Activity size={40} style={{ marginBottom: '12px' }} />
             <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Check Symptoms</div>
             <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Get AI assessment</div>
           </button>
@@ -121,18 +147,22 @@ export default function Dashboard({ navigate }) {
               cursor: 'pointer',
               boxShadow: '0 4px 6px rgba(16, 185, 129, 0.2)',
               transition: 'all 0.3s ease',
-              textAlign: 'center'
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-4px)'
-              e.target.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
             }}
           >
-            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>📋</div>
+            <FileText size={40} style={{ marginBottom: '12px' }} />
             <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Medical History</div>
             <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>View your records</div>
           </button>
@@ -148,18 +178,22 @@ export default function Dashboard({ navigate }) {
               cursor: 'pointer',
               boxShadow: '0 4px 6px rgba(13, 148, 136, 0.2)',
               transition: 'all 0.3s ease',
-              textAlign: 'center'
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-4px)'
-              e.target.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
             }}
           >
-            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>👨‍⚕️</div>
+            <Users size={40} style={{ marginBottom: '12px' }} />
             <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Connect Doctor</div>
             <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Book consultation</div>
           </button>
@@ -178,15 +212,15 @@ export default function Dashboard({ navigate }) {
               textAlign: 'center'
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-4px)'
-              e.target.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
             }}
           >
-            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>💊</div>
+            <Pill size={40} style={{ marginBottom: '12px' }} />
             <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Medications</div>
             <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Manage reminders</div>
           </button>
@@ -206,7 +240,10 @@ export default function Dashboard({ navigate }) {
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             border: '1px solid #E2E8F0'
           }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#0F172A', marginBottom: '16px' }}>📊 Health Profile</h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <User size={24} color="#0D9488" />
+              <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#0F172A', margin: 0 }}>Health Profile</h2>
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
                 <span style={{ color: '#64748B' }}>Age:</span>

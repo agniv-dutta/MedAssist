@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Search, Clock, MapPin, Star, ArrowLeft } from 'lucide-react'
 import { getAvailableDoctors, bookAppointment } from '../utils/api'
 
 export default function DoctorConnect({ navigate }) {
@@ -61,13 +62,35 @@ export default function DoctorConnect({ navigate }) {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC', padding: '20px' }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="mb-6 flex justify-between items-center">
-          <h1 className="text-4xl font-bold text-gray-800">👨‍⚕️ Connect with Doctor</h1>
-          <button
-            onClick={() => navigate('/dashboard')}
+        <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              onClick={() => navigate('/dashboard')}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                borderRadius: '8px',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#E0F2FE'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent'
+              }}
+            >
+              <ArrowLeft size={24} color="#0D9488" />
+            </button>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#0F172A', margin: 0 }}>Connect with Doctor</h1>
+          </div>
+        </div>
             className="btn-secondary"
           >
             Back
