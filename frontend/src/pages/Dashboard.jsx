@@ -48,131 +48,272 @@ export default function Dashboard({ navigate }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC', padding: '20px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-4xl font-bold text-gray-800">Welcome, {userProfile.name}! 👋</h1>
-              <p className="text-gray-600 mt-2">Your personal health dashboard</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="btn-secondary"
-            >
-              Logout
-            </button>
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '12px',
+          padding: '24px',
+          marginBottom: '24px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start'
+        }}>
+          <div>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: '700', color: '#0F172A', marginBottom: '10px' }}>
+              Welcome, {userProfile.name}! 👋
+            </h1>
+            <p style={{ color: '#64748B', marginTop: '8px' }}>Your personal health dashboard</p>
           </div>
+          <button
+            onClick={handleLogout}
+            className="btn-secondary"
+            style={{ whiteSpace: 'nowrap' }}
+          >
+            Logout
+          </button>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        {/* Quick Actions Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '16px',
+          marginBottom: '24px'
+        }}>
           <button
             onClick={() => navigate('/symptom-checker')}
-            className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #0D9488 0%, #10B981 100%)',
+              color: 'white',
+              padding: '24px',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 6px rgba(13, 148, 136, 0.2)',
+              transition: 'all 0.3s ease',
+              textAlign: 'center'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-4px)'
+              e.target.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
+            }}
           >
-            <div className="text-4xl mb-2">🩺</div>
-            <div className="text-lg font-bold">Check Symptoms</div>
-            <div className="text-sm mt-1">Get AI assessment</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>🩺</div>
+            <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Check Symptoms</div>
+            <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Get AI assessment</div>
           </button>
 
           <button
             onClick={() => navigate('/medical-history')}
-            className="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              color: 'white',
+              padding: '24px',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 6px rgba(16, 185, 129, 0.2)',
+              transition: 'all 0.3s ease',
+              textAlign: 'center'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-4px)'
+              e.target.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
+            }}
           >
-            <div className="text-4xl mb-2">📋</div>
-            <div className="text-lg font-bold">Medical History</div>
-            <div className="text-sm mt-1">View your records</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>📋</div>
+            <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Medical History</div>
+            <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>View your records</div>
           </button>
 
           <button
             onClick={() => navigate('/doctor-connect')}
-            className="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #0D9488 0%, #10B981 100%)',
+              color: 'white',
+              padding: '24px',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 6px rgba(13, 148, 136, 0.2)',
+              transition: 'all 0.3s ease',
+              textAlign: 'center'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-4px)'
+              e.target.style.boxShadow = '0 10px 15px rgba(13, 148, 136, 0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 6px rgba(13, 148, 136, 0.2)'
+            }}
           >
-            <div className="text-4xl mb-2">👨‍⚕️</div>
-            <div className="text-lg font-bold">Connect Doctor</div>
-            <div className="text-sm mt-1">Book consultation</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>👨‍⚕️</div>
+            <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Connect Doctor</div>
+            <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Book consultation</div>
           </button>
 
           <button
             onClick={() => navigate('/medical-history')}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              color: 'white',
+              padding: '24px',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 6px rgba(16, 185, 129, 0.2)',
+              transition: 'all 0.3s ease',
+              textAlign: 'center'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-4px)'
+              e.target.style.boxShadow = '0 10px 15px rgba(16, 185, 129, 0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 6px rgba(16, 185, 129, 0.2)'
+            }}
           >
-            <div className="text-4xl mb-2">💊</div>
-            <div className="text-lg font-bold">Medications</div>
-            <div className="text-sm mt-1">Manage reminders</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>💊</div>
+            <div style={{ fontSize: '1.125rem', fontWeight: 'bold' }}>Medications</div>
+            <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.9 }}>Manage reminders</div>
           </button>
         </div>
 
-        {/* Health Profile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">📊 Health Profile</h2>
-            <div className="space-y-3">
+        {/* Health Profile & Recent Activity */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '24px',
+          marginBottom: '24px'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '12px',
+            padding: '24px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            border: '1px solid #E2E8F0'
+          }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#0F172A', marginBottom: '16px' }}>📊 Health Profile</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
-                <span className="text-gray-600">Age:</span>
-                <span className="ml-2 font-semibold">{userProfile.age || 'Not set'}</span>
+                <span style={{ color: '#64748B' }}>Age:</span>
+                <span style={{ marginLeft: '8px', fontWeight: 600, color: '#0F172A' }}>{userProfile.age || 'Not set'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Gender:</span>
-                <span className="ml-2 font-semibold">{userProfile.gender || 'Not set'}</span>
+                <span style={{ color: '#64748B' }}>Gender:</span>
+                <span style={{ marginLeft: '8px', fontWeight: 600, color: '#0F172A' }}>{userProfile.gender || 'Not set'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Location:</span>
-                <span className="ml-2 font-semibold">{userProfile.location || 'Not set'}</span>
+                <span style={{ color: '#64748B' }}>Location:</span>
+                <span style={{ marginLeft: '8px', fontWeight: 600, color: '#0F172A' }}>{userProfile.location || 'Not set'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Chronic Conditions:</span>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <span style={{ color: '#64748B' }}>Chronic Conditions:</span>
+                <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {userProfile.chronicConditions && userProfile.chronicConditions.length > 0 ? (
                     userProfile.chronicConditions.map((cond, i) => (
-                      <span key={i} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                      <span key={i} style={{
+                        background: '#CCFBF1',
+                        color: '#0D9488',
+                        padding: '6px 12px',
+                        borderRadius: '20px',
+                        fontSize: '0.875rem',
+                        fontWeight: '600'
+                      }}>
                         {cond}
                       </span>
                     ))
                   ) : (
-                    <span className="text-gray-500">None</span>
+                    <span style={{ color: '#94A3B8' }}>None</span>
                   )}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">📈 Recent Activity</h2>
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '12px',
+            padding: '24px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            border: '1px solid #E2E8F0'
+          }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#0F172A', marginBottom: '16px' }}>📈 Recent Activity</h2>
             {loading ? (
-              <p className="text-gray-600">Loading...</p>
+              <p style={{ color: '#64748B' }}>Loading...</p>
             ) : medicalData && medicalData.history && medicalData.history.length > 0 ? (
-              <div className="space-y-3 max-h-64 overflow-y-auto">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '256px', overflowY: 'auto' }}>
                 {medicalData.history.slice(0, 5).map((item, i) => (
-                  <div key={i} className="border-l-4 border-blue-500 pl-3 py-2">
-                    <p className="font-semibold text-gray-800">{item.type === 'symptom_check' ? '🩺 Symptom Check' : '📋 Update'}</p>
-                    <p className="text-sm text-gray-600">{new Date(item.timestamp).toLocaleDateString()}</p>
+                  <div key={i} style={{
+                    borderLeft: '4px solid #0D9488',
+                    paddingLeft: '12px',
+                    paddingTop: '8px',
+                    paddingBottom: '8px'
+                  }}>
+                    <p style={{ fontWeight: 600, color: '#0F172A' }}>{item.type === 'symptom_check' ? '🩺 Symptom Check' : '📋 Update'}</p>
+                    <p style={{ fontSize: '0.875rem', color: '#64748B' }}>{new Date(item.timestamp).toLocaleDateString()}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-gray-600">No recent activity</p>
+              <p style={{ color: '#64748B' }}>No recent activity</p>
             )}
           </div>
         </div>
 
         {/* Health Tips */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">💡 Health Tips</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white bg-opacity-20 p-4 rounded-lg">
-              <p className="font-semibold">💧 Stay Hydrated</p>
-              <p className="text-sm mt-1">Drink at least 8 glasses of water daily</p>
+        <div style={{
+          background: 'linear-gradient(135deg, #0D9488 0%, #10B981 100%)',
+          color: 'white',
+          borderRadius: '12px',
+          padding: '24px',
+          boxShadow: '0 10px 15px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px' }}>💡 Health Tips</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '16px'
+          }}>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              padding: '16px',
+              borderRadius: '8px',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <p style={{ fontWeight: 600, marginBottom: '8px' }}>💧 Stay Hydrated</p>
+              <p style={{ fontSize: '0.875rem', opacity: 0.95 }}>Drink at least 8 glasses of water daily</p>
             </div>
-            <div className="bg-white bg-opacity-20 p-4 rounded-lg">
-              <p className="font-semibold">🏃 Exercise Regular</p>
-              <p className="text-sm mt-1">30 minutes of activity daily improves health</p>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              padding: '16px',
+              borderRadius: '8px',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <p style={{ fontWeight: 600, marginBottom: '8px' }}>🏃 Exercise Regular</p>
+              <p style={{ fontSize: '0.875rem', opacity: 0.95 }}>30 minutes of activity daily improves health</p>
             </div>
-            <div className="bg-white bg-opacity-20 p-4 rounded-lg">
-              <p className="font-semibold">😴 Sleep Well</p>
-              <p className="text-sm mt-1">Get 7-9 hours of quality sleep each night</p>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              padding: '16px',
+              borderRadius: '8px',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <p style={{ fontWeight: 600, marginBottom: '8px' }}>😴 Sleep Well</p>
+              <p style={{ fontSize: '0.875rem', opacity: 0.95 }}>Get 7-9 hours of quality sleep each night</p>
             </div>
           </div>
         </div>

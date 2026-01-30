@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Landing from './pages/Landing'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import SymptomChecker from './pages/SymptomChecker'
 import Dashboard from './pages/Dashboard'
 import MedicalHistory from './pages/MedicalHistory'
@@ -17,6 +19,8 @@ function App() {
   return (
     <>
       {currentPage === '/' && <Landing navigate={navigate} />}
+      {currentPage === '/login' && <Login navigate={navigate} />}
+      {currentPage === '/signup' && <SignUp navigate={navigate} />}
       {currentPage === '/symptom-checker' && <SymptomChecker navigate={navigate} />}
       {currentPage === '/dashboard' && <Dashboard navigate={navigate} />}
       {currentPage === '/medical-history' && <MedicalHistory navigate={navigate} />}

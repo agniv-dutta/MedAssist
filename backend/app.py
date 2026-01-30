@@ -2,20 +2,32 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
 import json
+import uuid
+import re
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# Initialize Gemini
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-genai.configure(api_key=GEMINI_API_KEY)
+# Initialize Gemini Vertex AI Client
+try:
+    gemini_client = genai.Client(
+        vertexai=True,
+        project=os.getenv("GCP_PROJECT"),
+        location=os.getenv("GCP_LOCATION", "us-central1"),
+    )
+    GEMINI_MODEL = os.getenv("AETHER_MODEL", "gemini-2.0-flash")
+    print(f"✅ Vertex AI Gemini initialized with model: {GEMINI_MODEL}")
+except Exception as e:
+    print(f"❌ Error initializing Vertex AI: {e}")
+    gemini_client = None
+    GEMINI_MODEL = None
 
 # Initialize Firebase
 FIREBASE_CREDENTIALS_PATH = os.getenv('FIREBASE_CREDENTIALS_PATH', 'firebase-key.json')
@@ -27,6 +39,9 @@ else:
     db = None
     print("⚠️  Firebase credentials not found. Database features disabled.")
 
+# In-memory user storage
+users_db = {}
+
 # Gemini Conversation System Prompt
 SYSTEM_PROMPT = """You are a medical triage AI assistant for rural healthcare in India. Your role is to:
 - Ask relevant follow-up questions to understand symptoms better
@@ -34,6 +49,7 @@ SYSTEM_PROMPT = """You are a medical triage AI assistant for rural healthcare in
 - Provide clear next steps and recommendations
 - Identify red flag symptoms requiring immediate care
 - Give first-aid advice for minor issues
+- Recommend appropriate medical specialist based on symptoms
 - Be empathetic and use simple language suitable for rural India
 - Suggest visiting nearest PHC (Primary Health Center) or hospital when needed
 
@@ -46,6 +62,7 @@ When you have enough information to assess severity, respond with a JSON object:
   "recommendations": ["recommendation 1", "recommendation 2"],
   "red_flags": ["critical symptom 1"],
   "first_aid": ["instruction 1"],
+  "specialist_recommendation": "e.g., General Physician, Cardiologist, Pulmonologist, Neurologist, Gastroenterologist, ENT Specialist, etc.",
   "message": "empathetic message to user"
 }
 
@@ -79,7 +96,8 @@ def parse_gemini_response(response_text):
         if json_start != -1 and json_end > json_start:
             json_str = response_text[json_start:json_end]
             return json.loads(json_str)
-    except:
+    except Exception as parse_error:
+        print(f"JSON parse error: {parse_error}")
         pass
     
     # Fallback: return as plain message
@@ -92,15 +110,192 @@ def parse_gemini_response(response_text):
         "first_aid": []
     }
 
+def call_gemini_api(prompt: str) -> str:
+    """Call Vertex AI Gemini API"""
+    if not gemini_client or not GEMINI_MODEL:
+        raise Exception("Gemini client not initialized")
+    
+    try:
+        response = gemini_client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config={"temperature": 0.2},
+        )
+        return response.text or ""
+    except Exception as e:
+        print(f"Gemini API error: {e}")
+        raise
+
 @app.route('/health', methods=['GET'])
 def health():
     """Health check endpoint"""
     return jsonify({'status': 'ok', 'message': 'MedAssist backend is running'})
 
+@app.route('/api/signup', methods=['POST'])
+def signup():
+    """User signup endpoint"""
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+        name = data.get('name')
+        age = data.get('age')
+        gender = data.get('gender')
+        
+        if not email or not password or not name:
+            return jsonify({'message': 'Missing required fields'}), 400
+        
+        # Check if user already exists
+        for user in users_db.values():
+            if user['email'] == email:
+                return jsonify({'message': 'Email already registered'}), 409
+        
+        # Create new user
+        user_id = str(uuid.uuid4())
+        users_db[user_id] = {
+            'userId': user_id,
+            'name': name,
+            'email': email,
+            'password': password,  # In production, hash this!
+            'age': age,
+            'gender': gender,
+            'chronicConditions': [],
+            'medicalHistory': [],
+            'createdAt': datetime.now().isoformat()
+        }
+        
+        return jsonify({
+            'userId': user_id,
+            'profile': {
+                'name': name,
+                'age': age,
+                'gender': gender,
+                'location': None,
+                'chronicConditions': []
+            }
+        }), 201
+    
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    """User login endpoint"""
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+        
+        if not email or not password:
+            return jsonify({'message': 'Email and password required'}), 400
+        
+        # Find user by email and password
+        for user_id, user in users_db.items():
+            if user['email'] == email and user['password'] == password:
+                return jsonify({
+                    'userId': user_id,
+                    'profile': {
+                        'name': user['name'],
+                        'age': user['age'],
+                        'gender': user['gender'],
+                        'location': None,
+                        'chronicConditions': user.get('chronicConditions', [])
+                    }
+                }), 200
+        
+        return jsonify({'message': 'Invalid email or password'}), 401
+    
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+@app.route('/api/analyze', methods=['POST'])
+def analyze_api():
+    """Analyze symptoms endpoint for symptom checker"""
+    try:
+        if not gemini_client:
+            return jsonify({
+                'status': 'error',
+                'message': 'Gemini API not initialized'
+            }), 500
+        
+        data = request.get_json()
+        user_id = data.get('user_id')
+        symptoms = data.get('symptoms')
+        
+        if not symptoms:
+            return jsonify({
+                'status': 'error',
+                'message': 'No symptoms provided'
+            }), 400
+        
+        # Create prompt for Gemini with system context
+        prompt = f"{SYSTEM_PROMPT}\n\nPatient symptoms:\n{symptoms}\n\nProvide your assessment:"
+        
+        # Call Vertex AI Gemini
+        response_text = call_gemini_api(prompt)
+        
+        # Parse response
+        result = parse_gemini_response(response_text)
+        
+        # Ensure we have specialist_recommendation
+        if not result.get('specialist_recommendation'):
+            result['specialist_recommendation'] = 'General Physician'
+        
+        return jsonify({
+            'status': 'success',
+            'analysis': result
+        })
+    
+    except Exception as e:
+        print(f"Error in analyze_api: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/medical-history', methods=['POST'])
+def save_medical_history_api():
+    """Save medical history"""
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        
+        if not user_id or user_id not in users_db:
+            return jsonify({
+                'status': 'error',
+                'message': 'User not found'
+            }), 404
+        
+        # Save to in-memory storage
+        if 'medicalHistory' not in users_db[user_id]:
+            users_db[user_id]['medicalHistory'] = []
+        
+        users_db[user_id]['medicalHistory'].append({
+            'timestamp': datetime.now().isoformat(),
+            'type': data.get('type', 'symptom_check'),
+            'result': data.get('result'),
+            'messages': data.get('messages', [])
+        })
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'History saved'
+        })
+    
+    except Exception as e:
+        print(f"Error saving history: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
 @app.route('/analyze-symptoms', methods=['POST'])
 def analyze_symptoms():
     """Main endpoint for symptom analysis using Gemini"""
     try:
+        if not gemini_client:
+            return jsonify({'error': 'Gemini API not initialized'}), 500
+        
         data = request.get_json()
         user_id = data.get('userId')
         symptoms = data.get('symptoms')
@@ -113,19 +308,13 @@ def analyze_symptoms():
         conversation_context = prepare_conversation_context(conversation_history)
         
         # Create prompt for Gemini
-        user_input = f"Patient symptom input: {symptoms}"
+        full_prompt = f"{SYSTEM_PROMPT}\n\nConversation:\n{conversation_context}Patient: {symptoms}\n\nAssistant: "
         
-        # Use Gemini API for analysis
-        model = genai.GenerativeModel('gemini-pro')
-        
-        full_conversation = conversation_context + f"Patient: {symptoms}\n\nAssistant: "
-        
-        response = model.generate_content(
-            f"{SYSTEM_PROMPT}\n\nConversation:\n{full_conversation}"
-        )
+        # Call Vertex AI Gemini API
+        response_text = call_gemini_api(full_prompt)
         
         # Parse response
-        result = parse_gemini_response(response.text)
+        result = parse_gemini_response(response_text)
         
         # Save to Firebase if available
         if db and user_id:
@@ -314,6 +503,6 @@ def internal_error(e):
 
 if __name__ == '__main__':
     print("🏥 MedAssist Backend Starting...")
-    print(f"Gemini API: {'✓ Configured' if GEMINI_API_KEY else '✗ Not configured'}")
+    print(f"Vertex AI Gemini: {'✓ Configured' if gemini_client else '✗ Not configured'}")
     print(f"Firebase: {'✓ Connected' if db else '✗ Not connected'}")
     app.run(debug=True, host='0.0.0.0', port=5000)
