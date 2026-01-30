@@ -10,7 +10,7 @@
 
 AI-powered healthcare assistant for rural India. MedAssist provides symptom triage, medical history tracking, and doctor connections with a clean, professional UI built for low-bandwidth environments.
 
-![MedAssist Banner](/assets/banner.png)
+![MedAssist Banner](/banner.png)
 
 ## Problem Statement
 
