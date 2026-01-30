@@ -1,4 +1,5 @@
 import React from 'react'
+import { Activity, FileText, Users, Stethoscope } from 'lucide-react'
 
 export default function Landing({ navigate }) {
   React.useEffect(() => {
@@ -19,7 +20,9 @@ export default function Landing({ navigate }) {
     }}>
       <div style={{ textAlign: 'center', maxWidth: '900px' }}>
         <div style={{ marginBottom: '32px' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🏥</div>
+          <div style={{ fontSize: '4rem', marginBottom: '16px' }}>
+            <Stethoscope size={80} color="white" />
+          </div>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', color: 'white', marginBottom: '16px' }}>
             MedAssist
           </h1>
@@ -48,7 +51,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🩺</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <Activity size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Symptom Checker
             </h3>
@@ -64,7 +69,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>📋</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <FileText size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Medical History
             </h3>
@@ -80,7 +87,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>💊</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <Activity size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Medication Reminders
             </h3>
@@ -96,7 +105,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>👨‍⚕️</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <Users size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Doctor Connect
             </h3>
@@ -112,7 +123,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🎓</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <Stethoscope size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Health Education
             </h3>
@@ -128,7 +141,9 @@ export default function Landing({ navigate }) {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
             backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🚑</div>
+            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>
+              <Activity size={40} color="#0D9488" />
+            </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#0F172A', marginBottom: '8px' }}>
               Emergency Hotline
             </h3>
