@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Thermometer, Wind, Heart, Brain, Stomach, AlertCircle, CheckCircle, AlertTriangle, Phone, Stethoscope } from 'lucide-react'
+import { Thermometer, Wind, Heart, Brain, Activity, AlertCircle, CheckCircle, AlertTriangle, Phone, Stethoscope } from 'lucide-react'
 
 // Hardcoded symptom analysis data for MVP
 const SYMPTOM_ANALYSIS = {
@@ -181,7 +181,7 @@ const SYMPTOMS_DB = {
   },
   abdominalPain: {
     name: 'Abdominal Pain',
-    icon: Stomach,
+    icon: Activity,
     description: 'Stomach or belly pain',
     questions: [
       'Where exactly is the pain in your abdomen?',
